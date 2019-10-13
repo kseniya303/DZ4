@@ -1,0 +1,7 @@
+C:\Users\Kseny\source\repos\Dz4\Dz4\bin\Debug\Dz4.exe.config
+C:\Users\Kseny\source\repos\Dz4\Dz4\bin\Debug\Dz4.exe
+C:\Users\Kseny\source\repos\Dz4\Dz4\bin\Debug\Dz4.pdb
+C:\Users\Kseny\source\repos\Dz4\Dz4\obj\Debug\Dz4.csprojAssemblyReference.cache
+C:\Users\Kseny\source\repos\Dz4\Dz4\obj\Debug\Dz4.csproj.CoreCompileInputs.cache
+C:\Users\Kseny\source\repos\Dz4\Dz4\obj\Debug\Dz4.exe
+C:\Users\Kseny\source\repos\Dz4\Dz4\obj\Debug\Dz4.pdb
