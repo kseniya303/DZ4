@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks;  
 
 namespace Dz4
 {
-    public class Money
+    public  class Money
     {
         private int rub { get; set; }
-        private int kop { get; set; }
-        //{ get => kop;
-        //    set
-        //    {
-        //        if (kop < 0 || kop > 99) throw new IndexOutOfRangeException(nameof(kop));
-        //        kop = value;
-        //    }
-        //}
-         public Money(int _rub, int _kop)
+        private int kop { get; set; } 
+        public Money(int _rub, int _kop)
         {
             rub = _rub;
             kop = _kop;
         }
-        public override string ToString()
-           => $"{rub},{kop:00}";
-
+        public override string ToString() => $"{rub},{kop:00}";
+        
+        public override int GetHashCode() => ToString().GetHashCode();
+        
         public static Money operator + (Money m1, Money m2)
         {
             int sum_rub;
@@ -55,16 +49,16 @@ namespace Dz4
             {
                 if((m1.rub - m2.rub) < 0 || (m1.rub - m2.rub) == 0)
                 {
-                    Console.WriteLine("Банкрот");
+                    throw new Exep($"Банкрот!");
                 }
                 else
                 {
                     ostatok_rub = m1.rub - m2.rub - 1;
                     ostatok_kop = 100 + (minus_kop % 100);
+                    Console.Write("Результат вычитания: ");
                     Console.WriteLine(ostatok_rub+","+ ostatok_kop);
                     return new Money(ostatok_rub, ostatok_kop);
-                }
-                return null;
+                } 
             }
             else
             {
@@ -73,17 +67,34 @@ namespace Dz4
                 return new Money(min_rub, minus_kop);
             }
         }
-        public static Money operator / (Money m1, Money m2)
-        {
-            var n = m1 + m2;
-
-            return null;
+        public static Money operator / (Money m, int num)
+        { 
+            var delRub = m.rub / num;
+            double converter = (m.kop / num) + (Convert.ToDouble(m.rub) / Convert.ToDouble(num)) * 100;
+            var delKop = Convert.ToInt32(converter);
+            if (new Money(delRub, delKop) < 0)
+            {
+                throw new Exep($"Банкрот!");
+            }
+            else
+            return new Money(delRub, delKop);
         }
-        public static Money operator * (Money m1, Money m2)
+        public static Money operator *(Money m, int num)
         {
-            var n = m1 + m2;
-
-            return null;
+            if (m.kop >= 10)
+            {
+                var u = (m.rub * 100) + m.kop;
+                var pro = u * num;
+                var znam = pro % 100;
+                var r = pro / 100;
+                return new Money(r, znam);
+            }
+            else
+            {
+                var r = m.rub * num;
+                var k = m.kop * num;
+                return new Money(r, k);
+            }
         } 
 
         // public override bool Equals(object obj) => Equals(obj as Money);
@@ -100,11 +111,59 @@ namespace Dz4
             }
             return m.rub == this.rub && m.kop == this.kop;
         }
-        //public bool Equals(Money money) => money != null && rub == money.rub && kop == money.kop;
-
-        public override int GetHashCode() => rub ^ kop;
-
+        
         public static bool operator ==(Money m1, Money m2) => object.Equals(m1, m2);
         public static bool operator !=(Money m1, Money m2) => !object.Equals(m1, m2);
+         
+        // Перегружаем унарный оператор ++
+        public static Money operator ++(Money m)
+        {
+            if(m.kop == 99)
+            {
+                m.rub += 1;
+                m.kop = 0;
+                return m;
+            }
+            else
+            {
+                m.kop += 1;
+                return m;
+            } 
+        }
+
+        // Перегружаем унарный оператор --
+        public static Money operator --(Money m)
+        {
+            if (m.kop == 0)
+            {
+                m.rub -= 1;
+                if(m.rub<0)
+                {
+                    throw new Exep($"Банкрот!");
+                }
+                m.kop = 99;
+                return m;
+            }
+            else
+            {
+                m.kop -= 1;
+                return m;
+            }
+        }
+
+        public static bool operator <(Money m, int num)
+        {
+            if (m.rub < num)
+                return true;
+            else
+                return false;
+        }
+        public static bool operator >(Money m, int num)
+        {
+            if (m.rub < num)
+                return false;
+            else
+                return true;
+        }
     }
 }
