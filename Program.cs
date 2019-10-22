@@ -67,7 +67,7 @@ namespace Dz4
                                 Console.Clear();
                                 Console.WriteLine("Введите целое число:");
                                 int val = Convert.ToInt32(Console.ReadLine());
-                                var pr1 = (sum / val);
+                                var pr1 = (sum / val); //
                                 Console.Write("Результат: ");
                                 Console.WriteLine(pr1.ToString());
                                 break;
